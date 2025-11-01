@@ -185,6 +185,7 @@ INSERT INTO `student` VALUES (12, 12, '2021210808', 2, 0, '2003-09-09', '湖南�
 INSERT INTO `student` VALUES (13, 13, '2021210809', 3, 1, '2003-10-10', '福建省厦门市', '2025-11-01 19:48:26', '2025-11-01 19:48:26');
 INSERT INTO `student` VALUES (14, 14, '2021210810', 1, 0, '2003-11-11', '江西省南昌市', '2025-11-01 19:48:26', '2025-11-01 19:48:26');
 INSERT INTO `student` VALUES (15, 16, '2023900115', 10, 1, '2025-11-04', '暂无', '2025-11-01 22:42:46', '2025-11-01 22:42:46');
+INSERT INTO `student` (`user_id`, `student_no`, `class_id`, `gender`, `birth_date`, `address`, `create_time`, `update_time`) VALUES (LAST_INSERT_ID(), '2023900117', 1, 1, '2005-06-20', '上海市浦东新区陆家嘴环路1000号', NOW(), NOW());
 
 -- ----------------------------
 -- Table structure for teacher
@@ -255,5 +256,6 @@ INSERT INTO `user` VALUES (13, 's009', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EH
 INSERT INTO `user` VALUES (14, 's010', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDi', '杨子', 'yang@stu.com', '13900002010', 'student', 1, '2025-11-01 19:42:22', '2025-11-01 19:42:22');
 INSERT INTO `user` VALUES (15, 'Eighteen', '$2a$10$P.QX5MfO6tRBLZJmiE.aPeWRUl8Sw6ldkPOR3PxUsw/qEs2EW3h9y', '封灵天', '3273495516@qq.com', '13272796154', 'TEACHER', 1, '2025-11-01 22:37:33', '2025-11-01 22:37:33');
 INSERT INTO `user` VALUES (16, 'King', '$2a$10$.k.JNROU52Pdt5KrpSbEsesm0QAU3vJ.1ZsE/Xm00r6NgC9luSQRO', '王新强', '3232656598982@qq.com', '13225256363', 'STUDENT', 1, '2025-11-01 22:42:46', '2025-11-01 22:42:46');
+INSERT INTO `user` (`username`, `password`, `real_name`, `email`, `phone`, `role`, `status`, `create_time`, `update_time`) VALUES ('2023900117', '$2a$10$Hs1CNnK4jNxLu7cZhqtMDeAsl5dW3P7dcyuZpIHxqjY6RyDU9Vg0W', '张伟', 'zhangwei@stu.com', '13900002017', 'STUDENT', 1, NOW(), NOW());
 
 SET FOREIGN_KEY_CHECKS = 1;
