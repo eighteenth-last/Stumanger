@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.student.mapper.ClassMapper">
+
+    <resultMap id="ClassWithDetailsMap" type="com.student.entity.Class">
+        <id column="id" property="id"/>
+        <result column="class_name" property="className"/>
+        <result column="major" property="major"/>
+        <result column="grade" property="grade"/>
+        <result column="enroll_year" property="enrollYear"/>
+        <result column="class_teacher_id" property="classTeacherId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        
+        <association property="classTeacher" javaType="com.student.entity.Teacher">
+            <id column="teacher_id" property="id"/>
+            <result column="teacher_no" property="teacherNo"/>
+            <result column="department" property="department"/>
+            <result column="title" property="title"/>
+            <association property="user" javaType="com.student.entity.User">
+                <id column="teacher_user_id" property="id"/>
+                <result column="teacher_real_name" property="realName"/>
+                <result column="teacher_phone" property="phone"/>
+                <result column="teacher_email" property="email"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <select id="selectClassesWithDetails" resultMap="ClassWithDetailsMap">
+        SELECT 
+            c.id, c.class_name, c.major, c.grade, c.enroll_year, c.class_teacher_id,
+            c.create_time, c.update_time,
+            t.id as teacher_id, t.teacher_no, t.department, t.title,
+            u.id as teacher_user_id, u.real_name as teacher_real_name, 
+            u.phone as teacher_phone, u.email as teacher_email
+        FROM class c
+        LEFT JOIN teacher t ON c.class_teacher_id = t.id
+        LEFT JOIN user u ON t.user_id = u.id
+        WHERE 1=1
+        <if test="className != null and className != ''">
+            AND c.class_name LIKE CONCAT('%', #{className}, '%')
+        </if>
+        <if test="major != null and major != ''">
+            AND c.major LIKE CONCAT('%', #{major}, '%')
+        </if>
+        <if test="grade != null and grade != ''">
+            AND c.grade = #{grade}
+        </if>
+        <if test="enrollYear != null">
+            AND c.enroll_year = #{enrollYear}
+        </if>
+        ORDER BY c.grade DESC, c.major, c.class_name
+    </select>
+
+    <select id="selectClassWithDetails" resultMap="ClassWithDetailsMap">
+        SELECT 
+            c.id, c.class_name, c.major, c.grade, c.enroll_year, c.class_teacher_id,
+            c.create_time, c.update_time,
+            t.id as teacher_id, t.teacher_no, t.department, t.title,
+            u.id as teacher_user_id, u.real_name as teacher_real_name,
+            u.phone as teacher_phone, u.email as teacher_email
+        FROM class c
+        LEFT JOIN teacher t ON c.class_teacher_id = t.id
+        LEFT JOIN user u ON t.user_id = u.id
+        WHERE c.id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,190 @@
+/* Element Plus 主题定制 */
+:root {
+  /* 主色 */
+  --el-color-primary: #409EFF;
+  --el-color-primary-light-3: #79bbff;
+  --el-color-primary-light-5: #a0cfff;
+  --el-color-primary-light-7: #c6e2ff;
+  --el-color-primary-light-8: #d9ecff;
+  --el-color-primary-light-9: #ecf5ff;
+  --el-color-primary-dark-2: #337ecc;
+  
+  /* 成功色 */
+  --el-color-success: #67C23A;
+  --el-color-success-light-3: #95d475;
+  --el-color-success-light-5: #b3e19d;
+  --el-color-success-light-7: #d1edc4;
+  --el-color-success-light-8: #e1f3d8;
+  --el-color-success-light-9: #f0f9eb;
+  --el-color-success-dark-2: #529b2e;
+  
+  /* 警告色 */
+  --el-color-warning: #E6A23C;
+  --el-color-warning-light-3: #eebe77;
+  --el-color-warning-light-5: #f3d19e;
+  --el-color-warning-light-7: #f8e3c5;
+  --el-color-warning-light-8: #faecd8;
+  --el-color-warning-light-9: #fdf6ec;
+  --el-color-warning-dark-2: #b88230;
+  
+  /* 危险色 */
+  --el-color-danger: #F56C6C;
+  --el-color-danger-light-3: #f89898;
+  --el-color-danger-light-5: #fab6b6;
+  --el-color-danger-light-7: #fcd3d3;
+  --el-color-danger-light-8: #fde2e2;
+  --el-color-danger-light-9: #fef0f0;
+  --el-color-danger-dark-2: #c45656;
+  
+  /* 信息色 */
+  --el-color-info: #909399;
+  --el-color-info-light-3: #b1b3b8;
+  --el-color-info-light-5: #c8c9cc;
+  --el-color-info-light-7: #dedfe0;
+  --el-color-info-light-8: #e9e9eb;
+  --el-color-info-light-9: #f4f4f5;
+  --el-color-info-dark-2: #73767a;
+  
+  /* 文本色 */
+  --el-text-color-primary: #303133;
+  --el-text-color-regular: #606266;
+  --el-text-color-secondary: #909399;
+  --el-text-color-placeholder: #C0C4CC;
+  --el-text-color-disabled: #C0C4CC;
+  
+  /* 边框色 */
+  --el-border-color: #DCDFE6;
+  --el-border-color-light: #E4E7ED;
+  --el-border-color-lighter: #EBEEF5;
+  --el-border-color-extra-light: #F2F6FC;
+  --el-border-color-dark: #D4D7DE;
+  --el-border-color-darker: #CDD0D6;
+  
+  /* 填充色 */
+  --el-fill-color: #F0F2F5;
+  --el-fill-color-light: #F5F7FA;
+  --el-fill-color-lighter: #FAFAFA;
+  --el-fill-color-extra-light: #FAFCFF;
+  --el-fill-color-dark: #EBEDF0;
+  --el-fill-color-darker: #E6E8EB;
+  --el-fill-color-blank: #FFFFFF;
+  
+  /* 背景色 */
+  --el-bg-color: #FFFFFF;
+  --el-bg-color-page: #F2F3F5;
+  --el-bg-color-overlay: #FFFFFF;
+  
+  /* 圆角 */
+  --el-border-radius-base: 4px;
+  --el-border-radius-small: 2px;
+  --el-border-radius-round: 20px;
+  --el-border-radius-circle: 100%;
+  
+  /* 字体大小 */
+  --el-font-size-extra-large: 20px;
+  --el-font-size-large: 18px;
+  --el-font-size-medium: 16px;
+  --el-font-size-base: 14px;
+  --el-font-size-small: 13px;
+  --el-font-size-extra-small: 12px;
+  
+  /* 组件尺寸 */
+  --el-component-size-large: 40px;
+  --el-component-size: 32px;
+  --el-component-size-small: 24px;
+}
+
+/* 自定义滚动条 */
+.el-scrollbar__wrap {
+  overflow-x: hidden;
+}
+
+/* 表格样式优化 */
+.el-table {
+  font-size: 14px;
+}
+
+.el-table th {
+  background-color: #f5f7fa;
+  color: var(--el-text-color-primary);
+  font-weight: 600;
+}
+
+.el-table tr:hover > td {
+  background-color: #f5f7fa !important;
+}
+
+/* 卡片样式优化 */
+.el-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.el-card:hover {
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* 按钮样式优化 */
+.el-button {
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.el-button--primary {
+  background-color: var(--el-color-primary);
+  border-color: var(--el-color-primary);
+}
+
+.el-button--primary:hover {
+  background-color: var(--el-color-primary-light-3);
+  border-color: var(--el-color-primary-light-3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
+}
+
+/* 输入框样式优化 */
+.el-input__wrapper {
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.el-input__wrapper:hover {
+  box-shadow: 0 0 0 1px var(--el-color-primary-light-7) inset;
+}
+
+.el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 1px var(--el-color-primary) inset;
+}
+
+/* 对话框样式优化 */
+.el-dialog {
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.el-dialog__header {
+  padding: 20px 20px 10px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+.el-dialog__body {
+  padding: 20px;
+}
+
+/* 消息提示样式优化 */
+.el-message {
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* 分页样式优化 */
+.el-pagination {
+  padding: 20px 0;
+}
+
+.el-pagination button,
+.el-pager li {
+  border-radius: 4px;
+}

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.student.mapper.ScoreMapper">
+
+    <resultMap id="ScoreWithDetailsMap" type="com.student.entity.Score">
+        <id column="id" property="id"/>
+        <result column="student_id" property="studentId"/>
+        <result column="course_id" property="courseId"/>
+        <result column="score" property="score"/>
+        <result column="semester" property="semester"/>
+        <result column="exam_type" property="examType"/>
+        <result column="exam_date" property="examDate"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        
+        <association property="student" javaType="com.student.entity.Student">
+            <id column="student_id" property="id"/>
+            <result column="student_no" property="studentNo"/>
+            <result column="class_id" property="classId"/>
+            <association property="user" javaType="com.student.entity.User">
+                <id column="student_user_id" property="id"/>
+                <result column="student_real_name" property="realName"/>
+            </association>
+            <association property="studentClass" javaType="com.student.entity.Class">
+                <id column="class_id" property="id"/>
+                <result column="class_name" property="className"/>
+            </association>
+        </association>
+        
+        <association property="course" javaType="com.student.entity.Course">
+            <id column="course_id" property="id"/>
+            <result column="course_name" property="courseName"/>
+            <result column="course_code" property="courseCode"/>
+            <result column="credit" property="credit"/>
+        </association>
+    </resultMap>
+
+    <select id="selectScoresWithDetails" resultMap="ScoreWithDetailsMap">
+        SELECT 
+            sc.id, sc.student_id, sc.course_id, sc.score, sc.semester,
+            sc.exam_type, sc.exam_date, sc.create_time, sc.update_time,
+            st.student_no, st.class_id,
+            u.id as student_user_id, u.real_name as student_real_name,
+            c.class_name,
+            co.course_name, co.course_code, co.credit
+        FROM score sc
+        LEFT JOIN student st ON sc.student_id = st.id
+        LEFT JOIN user u ON st.user_id = u.id
+        LEFT JOIN class c ON st.class_id = c.id
+        LEFT JOIN course co ON sc.course_id = co.id
+        WHERE 1=1
+        <if test="studentId != null">
+            AND sc.student_id = #{studentId}
+        </if>
+        <if test="courseId != null">
+            AND sc.course_id = #{courseId}
+        </if>
+        <if test="semester != null and semester != ''">
+            AND sc.semester = #{semester}
+        </if>
+        <if test="minScore != null">
+            AND sc.score &gt;= #{minScore}
+        </if>
+        <if test="maxScore != null">
+            AND sc.score &lt;= #{maxScore}
+        </if>
+        ORDER BY sc.semester DESC, sc.score DESC
+    </select>
+
+    <select id="selectScoreWithDetails" resultMap="ScoreWithDetailsMap">
+        SELECT 
+            sc.id, sc.student_id, sc.course_id, sc.score, sc.semester,
+            sc.exam_type, sc.exam_date, sc.create_time, sc.update_time,
+            st.student_no, st.class_id,
+            u.id as student_user_id, u.real_name as student_real_name,
+            c.class_name,
+            co.course_name, co.course_code, co.credit
+        FROM score sc
+        LEFT JOIN student st ON sc.student_id = st.id
+        LEFT JOIN user u ON st.user_id = u.id
+        LEFT JOIN class c ON st.class_id = c.id
+        LEFT JOIN course co ON sc.course_id = co.id
+        WHERE sc.id = #{id}
+    </select>
+
+    <select id="getCourseScoreStatistics" resultType="map">
+        SELECT 
+            COUNT(*) as studentCount,
+            AVG(score) as averageScore,
+            MAX(score) as maxScore,
+            MIN(score) as minScore,
+            SUM(CASE WHEN score >= 90 THEN 1 ELSE 0 END) as excellentCount,
+            SUM(CASE WHEN score >= 80 AND score &lt; 90 THEN 1 ELSE 0 END) as goodCount,
+            SUM(CASE WHEN score >= 70 AND score &lt; 80 THEN 1 ELSE 0 END) as mediumCount,
+            SUM(CASE WHEN score >= 60 AND score &lt; 70 THEN 1 ELSE 0 END) as passCount,
+            SUM(CASE WHEN score &lt; 60 THEN 1 ELSE 0 END) as failCount
+        FROM score
+        WHERE course_id = #{courseId}
+        <if test="semester != null and semester != ''">
+            AND semester = #{semester}
+        </if>
+    </select>
+
+    <select id="getStudentScoreStatistics" resultType="map">
+        SELECT 
+            COUNT(*) as courseCount,
+            AVG(score) as averageScore,
+            MAX(score) as maxScore,
+            MIN(score) as minScore,
+            SUM(CASE WHEN score >= 60 THEN 1 ELSE 0 END) as passCount,
+            SUM(CASE WHEN score &lt; 60 THEN 1 ELSE 0 END) as failCount
+        FROM score
+        WHERE student_id = #{studentId}
+    </select>
+
+    <select id="getClassScoreStatistics" resultType="map">
+        SELECT 
+            st.id as studentId,
+            st.student_no as studentNo,
+            u.real_name as studentName,
+            AVG(sc.score) as averageScore,
+            COUNT(sc.id) as courseCount
+        FROM student st
+        LEFT JOIN user u ON st.user_id = u.id
+        LEFT JOIN score sc ON st.id = sc.student_id
+        WHERE st.class_id = #{classId}
+        <if test="semester != null and semester != ''">
+            AND sc.semester = #{semester}
+        </if>
+        GROUP BY st.id, st.student_no, u.real_name
+        ORDER BY averageScore DESC
+    </select>
+
+</mapper>

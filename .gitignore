@@ -1,0 +1,47 @@
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Maven
+Server/target/
+Server/.mvn/
+Server/mvnw
+Server/mvnw.cmd
+
+# Node
+front/node_modules/
+front/dist/
+front/.vite/
+front/.temp/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env.local
+.env.*.local
+
+# Database
+*.db
+*.sqlite
+
+# Compiled
+*.class
+*.jar
+*.war
+
+# Package Files
+*.rar
+*.zip
+*.tar.gz
+
+# Test
+Server/test-output/

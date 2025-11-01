@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.student.mapper.CourseMapper">
+
+    <resultMap id="CourseWithDetailsMap" type="com.student.entity.Course">
+        <id column="id" property="id"/>
+        <result column="course_name" property="courseName"/>
+        <result column="course_code" property="courseCode"/>
+        <result column="credit" property="credit"/>
+        <result column="hours" property="hours"/>
+        <result column="semester" property="semester"/>
+        <result column="classroom" property="classroom"/>
+        <result column="class_time" property="classTime"/>
+        <result column="teacher_id" property="teacherId"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        
+        <association property="teacher" javaType="com.student.entity.Teacher">
+            <id column="teacher_id" property="id"/>
+            <result column="teacher_no" property="teacherNo"/>
+            <result column="department" property="department"/>
+            <result column="title" property="title"/>
+            <association property="user" javaType="com.student.entity.User">
+                <id column="teacher_user_id" property="id"/>
+                <result column="teacher_real_name" property="realName"/>
+                <result column="teacher_phone" property="phone"/>
+                <result column="teacher_email" property="email"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <select id="selectCoursesWithDetails" resultMap="CourseWithDetailsMap">
+        SELECT 
+            c.id, c.course_name, c.course_code, c.credit, c.hours, c.semester, 
+            c.classroom, c.class_time, c.teacher_id, c.description,
+            c.create_time, c.update_time,
+            t.teacher_no, t.department, t.title,
+            u.id as teacher_user_id, u.real_name as teacher_real_name,
+            u.phone as teacher_phone, u.email as teacher_email
+        FROM course c
+        LEFT JOIN teacher t ON c.teacher_id = t.id
+        LEFT JOIN user u ON t.user_id = u.id
+        WHERE 1=1
+        <if test="courseName != null and courseName != ''">
+            AND c.course_name LIKE CONCAT('%', #{courseName}, '%')
+        </if>
+        <if test="courseCode != null and courseCode != ''">
+            AND c.course_code LIKE CONCAT('%', #{courseCode}, '%')
+        </if>
+        <if test="teacherId != null">
+            AND c.teacher_id = #{teacherId}
+        </if>
+        ORDER BY c.course_code
+    </select>
+
+    <select id="selectCourseWithDetails" resultMap="CourseWithDetailsMap">
+        SELECT 
+            c.id, c.course_name, c.course_code, c.credit, c.hours, c.semester,
+            c.classroom, c.class_time, c.teacher_id, c.description,
+            c.create_time, c.update_time,
+            t.teacher_no, t.department, t.title,
+            u.id as teacher_user_id, u.real_name as teacher_real_name,
+            u.phone as teacher_phone, u.email as teacher_email
+        FROM course c
+        LEFT JOIN teacher t ON c.teacher_id = t.id
+        LEFT JOIN user u ON t.user_id = u.id
+        WHERE c.id = #{id}
+    </select>
+
+</mapper>

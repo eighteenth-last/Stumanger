@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.student.mapper.TeacherMapper">
+
+    <resultMap id="TeacherWithDetailsMap" type="com.student.entity.Teacher">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="teacher_no" property="teacherNo"/>
+        <result column="department" property="department"/>
+        <result column="title" property="title"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        
+        <association property="user" javaType="com.student.entity.User">
+            <id column="user_id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="real_name" property="realName"/>
+            <result column="email" property="email"/>
+            <result column="phone" property="phone"/>
+            <result column="role" property="role"/>
+            <result column="status" property="status"/>
+        </association>
+    </resultMap>
+
+    <select id="selectTeachersWithDetails" resultMap="TeacherWithDetailsMap">
+        SELECT 
+            t.id, t.user_id, t.teacher_no, t.department, t.title,
+            t.create_time, t.update_time,
+            u.username, u.real_name, u.email, u.phone, u.role, u.status
+        FROM teacher t
+        LEFT JOIN user u ON t.user_id = u.id
+        WHERE 1=1
+        <if test="teacherNo != null and teacherNo != ''">
+            AND t.teacher_no LIKE CONCAT('%', #{teacherNo}, '%')
+        </if>
+        <if test="realName != null and realName != ''">
+            AND u.real_name LIKE CONCAT('%', #{realName}, '%')
+        </if>
+        <if test="department != null and department != ''">
+            AND t.department LIKE CONCAT('%', #{department}, '%')
+        </if>
+        <if test="title != null and title != ''">
+            AND t.title = #{title}
+        </if>
+        ORDER BY t.teacher_no
+    </select>
+
+    <select id="selectTeacherWithDetails" resultMap="TeacherWithDetailsMap">
+        SELECT 
+            t.id, t.user_id, t.teacher_no, t.department, t.title,
+            t.create_time, t.update_time,
+            u.username, u.real_name, u.email, u.phone, u.role, u.status
+        FROM teacher t
+        LEFT JOIN user u ON t.user_id = u.id
+        WHERE t.id = #{id}
+    </select>
+
+</mapper>
